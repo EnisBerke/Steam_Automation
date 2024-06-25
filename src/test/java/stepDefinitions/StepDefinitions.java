@@ -4,10 +4,9 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import pages.MainPage;
-import pages.ProductPage;
-import pages.ScrollDown;
+import pages.*;
 import utilities.Driver;
 
 import java.time.Duration;
@@ -22,11 +21,14 @@ public class StepDefinitions {
 
     private ScrollDown scrollDown;
 
+    private ScrollUp scrollUp;
+
+    private ShoppingCardPage shoppingCardPage;
+
+    protected String firstApp;
+
     @Given("go to main page")
     public void go_to_main_page() {
-        driver = Driver.getDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://store.steampowered.com/");
 
     }
@@ -37,15 +39,13 @@ public class StepDefinitions {
 
     }
     @Given("select product")
-    public void select_product() {
+    public void select_product() throws InterruptedException {
         mainPage = new MainPage(driver);
+        productPage = new ProductPage(driver);
+        String productName = mainPage.getProductName();
         mainPage.clickProduct();
-    }
-    @Given("scroll down again")
-    public void scroll_down_again() throws InterruptedException {
-        scrollDown = new ScrollDown(driver);
-        scrollDown.scrollDown();
-        Thread.sleep(3000);
+        Assert.assertEquals(productName, productPage.getProductTitle());
+
     }
 
     @Given("add product to card")
@@ -65,4 +65,54 @@ public class StepDefinitions {
         productPage.displayBasketCount();
     }
 
+    @Given("setting driver")
+    public void setting_driver() {
+        driver = Driver.getDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    }
+
+
+    @Given("click basket icon")
+    public void clickBasketIcon() {
+        productPage = new ProductPage(driver);
+        productPage.clickBasketIcon();
+    }
+
+    @When("click remove button")
+    public void clickRemoveButton() {
+        shoppingCardPage = new ShoppingCardPage(driver);
+        shoppingCardPage.clickRemoveButton();
+    }
+
+    @Then("confirm to cart is empty")
+    public void confirmToCartIsEmpty() {
+        shoppingCardPage = new ShoppingCardPage(driver);
+        shoppingCardPage.getCardEmptyIndicator();
+    }
+
+    @Given("scroll up")
+    public void scrollUp() {
+        scrollUp = new ScrollUp(driver);
+        scrollUp.getScrollUp();
+    }
+
+    @Given("get Featured And Recommended product name")
+    public void getFeaturedAndRecommendedProductName() throws InterruptedException {
+        mainPage = new MainPage(driver);
+        String firstApp = mainPage.getFeaturedAppName();
+
+    }
+
+    @And("scroll right")
+    public void scrollRight() throws InterruptedException {
+        mainPage = new MainPage(driver);
+        mainPage.clickFutureAndRecommendedRightArrow();
+    }
+
+    @Then("confirm name different beetwen pages to page scroll right")
+    public void confirmNameDifferentBeetwenPagesToPageScrollRight() throws InterruptedException {
+        mainPage = new MainPage(driver);
+        Assert.assertNotEquals(firstApp, mainPage.getFeaturedAppName());
+    }
 }

@@ -11,7 +11,7 @@ public class ProductPage {
 
     private final WebDriver driver;
 
-    @FindBy(id = "btn_add_to_cart_347605")
+    @FindBy(xpath = "/html/body/div[1]/div[7]/div[6]/div[3]/div[3]/div[1]/div[5]/div[2]/div[2]/div[2]/div/div[2]/div/div[2]/a")
     private WebElement addToCardButton;
 
     @FindBy(xpath = "/html/body/div[3]/div[2]/div/div/div[3]/div/div[3]/button[1]")
@@ -19,6 +19,10 @@ public class ProductPage {
 
     @FindBy(xpath = "/html/body/div[1]/div[7]/div[6]/div[3]/div[2]/div/div/div[1]/div/div/div")
     private WebElement basketIcon;
+
+    @FindBy(xpath = "/html/body/div[1]/div[7]/div[6]/div[3]/div[3]/div[1]/div[2]/div[2]/div/div[3]")
+    public WebElement productTitle;
+
 
     public ProductPage(WebDriver driver) {
         this.driver = driver;
@@ -37,4 +41,12 @@ public class ProductPage {
         Assert.assertTrue(basketIcon.isDisplayed());
     }
 
+    public void clickBasketIcon() {
+        basketIcon.click();
+    }
+
+    public String getProductTitle() {
+        return productTitle.getText();
+
+    }
 }
