@@ -110,8 +110,8 @@ public class StepDefinitions {
         mainPage.clickFutureAndRecommendedRightArrow();
     }
 
-    @Then("confirm name different beetwen pages to page scroll right")
-    public void confirmNameDifferentBeetwenPagesToPageScrollRight() throws InterruptedException {
+    @Then("confirm name different between pages to page scroll right")
+    public void confirmNameDifferentBetweenPagesToPageScrollRight() throws InterruptedException {
         mainPage = new MainPage(driver);
         Assert.assertNotEquals(firstApp, mainPage.getFeaturedAppName());
     }

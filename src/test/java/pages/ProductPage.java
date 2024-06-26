@@ -11,7 +11,7 @@ public class ProductPage {
 
     private final WebDriver driver;
 
-    @FindBy(xpath = "/html/body/div[1]/div[7]/div[6]/div[3]/div[3]/div[1]/div[5]/div[2]/div[2]/div[2]/div/div[2]/div/div[2]/a")
+    @FindBy(xpath = "/html/body/div[1]/div[7]/div[6]/div[3]/div[3]/div[1]/div[5]/div[2]/div[1]/div[1]/div/div[2]/div/div[2]/a")
     private WebElement addToCardButton;
 
     @FindBy(xpath = "/html/body/div[3]/div[2]/div/div/div[3]/div/div[3]/button[1]")

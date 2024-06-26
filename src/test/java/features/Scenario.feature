@@ -7,7 +7,7 @@ Feature: Example Scenario
     And get Featured And Recommended product name
     And scroll right
     When get Featured And Recommended product name
-    Then confirm name different beetwen pages to page scroll right
+    Then confirm name different between pages to page scroll right
 
   Scenario: scroll down and click product
     Given scroll down
