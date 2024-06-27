@@ -27,6 +27,18 @@ public class StepDefinitions {
 
     protected String firstApp;
 
+    @Given("setting driver")
+    public void setting_driver() {
+        driver = Driver.getDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        mainPage = new MainPage(driver);
+        productPage = new ProductPage(driver);
+        scrollDown = new ScrollDown(driver);
+        scrollUp = new ScrollUp(driver);
+        shoppingCardPage = new ShoppingCardPage(driver);
+    }
+
     @Given("go to main page")
     public void go_to_main_page() {
         driver.get("https://store.steampowered.com/");
@@ -34,14 +46,11 @@ public class StepDefinitions {
     }
     @Given("scroll down")
     public void scroll_down() {
-        scrollDown = new ScrollDown(driver);
         scrollDown.scrollDown();
 
     }
     @Given("select product")
     public void select_product() throws InterruptedException {
-        mainPage = new MainPage(driver);
-        productPage = new ProductPage(driver);
         String productName = mainPage.getProductName();
         mainPage.clickProduct();
         Assert.assertEquals(productName, productPage.getProductTitle());
@@ -50,69 +59,51 @@ public class StepDefinitions {
 
     @Given("add product to card")
     public void add_product_to_card() {
-        productPage = new ProductPage(driver);
         productPage.clickAddToCardButton();
     }
 
     @When("click continue shopping button")
     public void click_continue_shopping_button() {
-        productPage = new ProductPage(driver);
         productPage.clickContinueShoppingButton();
     }
     @Then("confirm to product added into basket and displayed")
     public void confirm_to_product_added_into_basket_and_displayed() {
-        productPage = new ProductPage(driver);
         productPage.displayBasketCount();
     }
 
-    @Given("setting driver")
-    public void setting_driver() {
-        driver = Driver.getDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-    }
-
-
     @Given("click basket icon")
     public void clickBasketIcon() {
-        productPage = new ProductPage(driver);
         productPage.clickBasketIcon();
     }
 
     @When("click remove button")
     public void clickRemoveButton() {
-        shoppingCardPage = new ShoppingCardPage(driver);
         shoppingCardPage.clickRemoveButton();
     }
 
     @Then("confirm to cart is empty")
     public void confirmToCartIsEmpty() {
-        shoppingCardPage = new ShoppingCardPage(driver);
         shoppingCardPage.getCardEmptyIndicator();
     }
 
     @Given("scroll up")
     public void scrollUp() {
-        scrollUp = new ScrollUp(driver);
         scrollUp.getScrollUp();
     }
 
     @Given("get Featured And Recommended product name")
     public void getFeaturedAndRecommendedProductName() throws InterruptedException {
-        mainPage = new MainPage(driver);
         String firstApp = mainPage.getFeaturedAppName();
 
     }
 
     @And("scroll right")
     public void scrollRight() throws InterruptedException {
-        mainPage = new MainPage(driver);
         mainPage.clickFutureAndRecommendedRightArrow();
     }
 
     @Then("confirm name different between pages to page scroll right")
     public void confirmNameDifferentBetweenPagesToPageScrollRight() throws InterruptedException {
-        mainPage = new MainPage(driver);
         Assert.assertNotEquals(firstApp, mainPage.getFeaturedAppName());
     }
 }
